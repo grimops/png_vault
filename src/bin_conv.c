@@ -21,3 +21,24 @@ void str_to_bin(char *file_str, size_t size_of_file, unsigned char *bin_arr)
 		}
 	}
 }
+
+void bin_to_str(unsigned char *bin_arr, size_t size_of_bin_arr, char *file_str)
+{
+	size_t size_of_file = size_of_bin_arr / 8;
+	for(int i = 0; i < size_of_file; i++)
+	{
+		file_str[i] = 0;
+		for(int n = i * 8; n < (i * 8) + 8; n++)
+		{
+			file_str[i] = file_str[i] << 1;
+			if(bin_arr[n] == 1){
+				file_str[i]++;
+				printf("1");
+			}
+			else{
+				printf("0");
+			}
+		}
+	printf("%c\n", file_str[i]);
+	}
+}
