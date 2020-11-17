@@ -1,4 +1,3 @@
-#define _PNG_IO_C_
 #ifndef PNG_DEBUG
 	#define PNG_DEBUG 3
 #endif
@@ -12,8 +11,16 @@
 #include "file_io.h"
 #include "exit_message.h"
 #include "png_io.h"
-#undef _PNG_IO_C_
 
+
+int x, y;
+int width, height;
+png_byte color_type;
+png_byte bit_depth;
+png_structp png_ptr;
+png_infop info_ptr;
+int number_of_passes;
+png_bytep * row_pointers;	
 
 void read_png_file(char* file_name)
 {
@@ -123,6 +130,7 @@ void write_png_file(char* file_name)
 
 void process_file(void)
 {
+	printf("The .png file is %d x %d with a total of %d pixels\n", height, width, height * width);
 	if (png_get_color_type(png_ptr, info_ptr) == PNG_COLOR_TYPE_RGB)
 		exit_message("[!] input file is PNG_COLOR_TYPE_RGB but must be PNG_COLOR_TYPE_RGBA "
 		"(lacks the alpha channel)");
@@ -136,8 +144,8 @@ void process_file(void)
 		for (x=0; x<width; x++)
 		{
 			png_byte* ptr = &(row[x*4]);
-			printf("Pixel at position [ %d - %d ] has RGBA values: %d - %d - %d - %d\n",
-			x, y, ptr[0], ptr[1], ptr[2], ptr[3]);
+			/*printf("Pixel at position [ %d - %d ] has RGBA values: %d - %d - %d - %d\n",
+			x, y, ptr[0], ptr[1], ptr[2], ptr[3]);*/
 			/* set red value to 0 and green value to the blue one */
 			/*
 			 * ptr[0] is the red value
@@ -145,7 +153,7 @@ void process_file(void)
 			 * ptr[2] is the blue value
 			 * ptr[3] is the alpha value
 			 */
-			ptr[0] = 0;
+			ptr[2] = 0x00;
 		}
 	}
 }

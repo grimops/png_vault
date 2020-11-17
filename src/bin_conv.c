@@ -1,5 +1,6 @@
-#include "str_bin.h"
+#include "bin_conv.h"
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 void str_to_bin(char *file_str, size_t size_of_file, unsigned char *bin_arr)
