@@ -57,3 +57,20 @@ void bin_to_int64(size_t *integer_64, unsigned char *bin_arr)
 		*integer_64 += bin_arr[i];
 	}
 }
+
+int bincat(unsigned char *bin_arr1, size_t size_bin1, unsigned char *bin_arr2, size_t size_bin2, unsigned char **new_bin, size_t *size_new)
+{
+	*size_new = size_bin1 + size_bin2;
+	*new_bin = (unsigned char*)malloc(*size_new);
+	if(*new_bin == NULL)
+		return 1;
+	for(int i = 0; i < size_bin1; i++)
+	{
+		(*new_bin)[i] = bin_arr1[i];
+	}
+	for(int i = 0; i < size_bin2; i++)
+	{
+		(*new_bin)[i + size_bin1] = bin_arr2[i];
+	}
+return 0;
+}
