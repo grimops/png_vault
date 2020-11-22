@@ -210,3 +210,59 @@ void write_steg(unsigned char *bin_arr, size_t size_of_bin_arr, char channel)
 		}
 	}
 }
+
+
+void read_steg(unsigned char **bin_arr, size_t *size_of_bin_arr, char channel)
+{
+	printf("The .png file is %d x %d with a total of %d pixels\n", height, width, height * width);
+	if (png_get_color_type(png_ptr, info_ptr) == PNG_COLOR_TYPE_RGB)
+		exit_message("[!] input file is PNG_COLOR_TYPE_RGB but must be PNG_COLOR_TYPE_RGBA "
+		"(lacks the alpha channel)");
+
+	if (png_get_color_type(png_ptr, info_ptr) != PNG_COLOR_TYPE_RGBA)
+		exit_message("[!] color_type of input file must be PNG_COLOR_TYPE_RGBA");
+
+	int	int_chan;
+	if(channel == 'R' || channel == 'r')
+		int_chan = 0;
+	else if(channel == 'G' || channel == 'g')
+		int_chan = 1;
+	else if(channel == 'B' || channel == 'b')
+		int_chan = 3;
+	else if(channel == 'A' || channel == 'a')
+		int_chan = 4;
+	else
+		exit_message("[!] Invalid channel");
+
+	unsigned char size_of_bin_arr_bin[64];
+	int count = 0;
+	for (y=0; y<height; y++)
+	{
+		png_byte* row = row_pointers[y];
+		for (x=0; x<width; x++)
+		{
+			png_byte* ptr = &(row[x*4]);
+			/*printf("Pixel at position [ %d - %d ] has RGBA values: %d - %d - %d - %d\n",
+			x, y, ptr[0], ptr[1], ptr[2], ptr[3]);*/
+			/* set red value to 0 and green value to the blue one */
+			/*
+			 * ptr[0] is the red value
+			 * ptr[1] is the green value
+			 * ptr[2] is the blue value
+			 * ptr[3] is the alpha value
+			 */
+			if(count < 64){
+				size_of_bin_arr_bin[count++] = ptr[int_chan] % 2;
+				continue;
+			}
+			else if(count == 64){
+				bin_to_int64(size_of_bin_arr, size_of_bin_arr_bin);
+				*bin_arr = (unsigned char*)malloc(*size_of_bin_arr);
+			}
+			if(count - 64 == *size_of_bin_arr)
+				return;
+			(*bin_arr)[count - 64] = ptr[int_chan];
+			count++;
+		}
+	}
+}
