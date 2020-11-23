@@ -235,7 +235,7 @@ void read_steg(unsigned char **bin_arr, size_t *size_of_bin_arr, char channel)
 		exit_message("[!] Invalid channel");
 
 	unsigned char size_of_bin_arr_bin[64];
-	int count = 0;
+	size_t count = 0;
 	for (y=0; y<height; y++)
 	{
 		png_byte* row = row_pointers[y];
@@ -252,16 +252,18 @@ void read_steg(unsigned char **bin_arr, size_t *size_of_bin_arr, char channel)
 			 * ptr[3] is the alpha value
 			 */
 			if(count < 64){
-				size_of_bin_arr_bin[count++] = ptr[int_chan] % 2;
+				size_of_bin_arr_bin[count] = ptr[int_chan] % 2;
+				printf("%d", ptr[int_chan]);
+				count++;
 				continue;
 			}
 			else if(count == 64){
 				bin_to_int64(size_of_bin_arr, size_of_bin_arr_bin);
 				*bin_arr = (unsigned char*)malloc(*size_of_bin_arr);
 			}
-			if(count - 64 == *size_of_bin_arr)
+			if(count - 64 == *size_of_bin_arr && !(count < 64))
 				return;
-			(*bin_arr)[count - 64] = ptr[int_chan];
+			(*bin_arr)[count - 64] = ptr[int_chan] % 2;
 			count++;
 		}
 	}

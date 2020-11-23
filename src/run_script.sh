@@ -6,6 +6,5 @@ then
 	if [ $? -eq 0 ]
 	then
 		display example1.png
-		rm example1.png
 	fi
 fi
