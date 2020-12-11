@@ -211,12 +211,12 @@ void write_steg(unsigned char *bin_arr, size_t size_of_bin_arr, char channel)
 			if(count < new_bin_size){
 				if(new_bin[count] == 1){
 					if(ptr[int_chan] % 2 == 0){
-						ptr[int_chan]-=1;
+						ptr[int_chan]++;
 					}
 				}
 				else if(new_bin[count] == 0){
 					if(ptr[int_chan] % 2){
-						ptr[int_chan]+=1;
+						ptr[int_chan]--;
 					}
 				}
 				else{
@@ -271,7 +271,6 @@ void read_steg(unsigned char **bin_arr, size_t *size_of_bin_arr, char channel)
 			 */
 			if(count < 64){
 				size_of_bin_arr_bin[count] = ptr[int_chan] % 2;
-				printf("%d", ptr[int_chan]);
 				count++;
 				continue;
 			}
@@ -279,7 +278,7 @@ void read_steg(unsigned char **bin_arr, size_t *size_of_bin_arr, char channel)
 				bin_to_int64(size_of_bin_arr, size_of_bin_arr_bin);
 				*bin_arr = (unsigned char*)malloc(*size_of_bin_arr);
 			}
-			if(count - 64 == *size_of_bin_arr && !(count < 64))
+			if(count - 64 == *size_of_bin_arr)
 				return;
 			(*bin_arr)[count - 64] = ptr[int_chan] % 2;
 			count++;

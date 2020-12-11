@@ -9,12 +9,16 @@
 int main(int argc, char **argv)
 {
 	
-/*	unsigned char *bin_arr;
+	unsigned char *bin_arr;
 	size_t size_of_bin;
 	read_png_file(argv[1]);
 	read_steg(&bin_arr, &size_of_bin, 'g');
-	printf("%d bytes\n", size_of_bin);
-	*/
+	char *str = (char*)malloc(45);
+
+	bin_to_str(bin_arr, size_of_bin, str);
+	printf("string: %s\n", str);
+	
+	/*
 	char *file_str = (char*)malloc(1);
 	size_t size_of_file;
 	if(read_file("test.txt", &file_str, &size_of_file))
@@ -28,5 +32,6 @@ int main(int argc, char **argv)
 	read_png_file(argv[1]);
 	write_steg(bin_arr, size_of_bin_arr, 'g');
 	write_png_file(argv[2]);
+	*/
 return 0;
 }

@@ -3,7 +3,9 @@ EXE=png_vault
 BIN_DIR=/usr/bin/local
 
 
-all: main.o exit_message.o png_io.o file_io.o bin_conv.o
+all: png_vault
+
+png_vault: main.o exit_message.o png_io.o file_io.o bin_conv.o
 	$(CC) main.o exit_message.o png_io.o file_io.o bin_conv.o -lpng -o $(EXE)
 main.o: main.c
 	$(CC) -c main.c

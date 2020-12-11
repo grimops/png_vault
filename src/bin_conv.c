@@ -26,13 +26,11 @@ void bin_to_str(unsigned char *bin_arr, size_t size_of_bin_arr, char *file_str)
 	for(int i = 0; i < size_of_file; i++)
 	{
 		file_str[i] = 0;
-		for(int n = i * 8; n < (i * 8) + 8; n++)
+		for(int n = i * 8; n < ((i * 8) + 8); n++)
 		{
 			file_str[i] = file_str[i] << 1;
 			if(bin_arr[n] == 1){
 				file_str[i]++;
-			}
-			else{
 			}
 		}
 	}
