@@ -157,8 +157,21 @@ void process_file(void)
 		}
 	}
 }
+
 void write_steg(unsigned char *bin_arr, size_t size_of_bin_arr, char channel)
 {
+	/* Make the bin_arr that we need to write */
+	unsigned char *new_bin;
+	size_t new_bin_size;
+	unsigned char size_of_bin_arr_bin[64];
+	printf("size_of_arr_bin: %d\n", size_of_bin_arr);
+	int64_to_bin(size_of_bin_arr, size_of_bin_arr_bin);
+	bincat(size_of_bin_arr_bin, 64, bin_arr, size_of_bin_arr, &new_bin, &new_bin_size);
+
+	for(int i = 0; i < new_bin_size; i++)
+	{
+		//printf("%d", new_bin[i]);
+	}
 	printf("The .png file is %d x %d with a total of %d pixels\n", height, width, height * width);
 	if (png_get_color_type(png_ptr, info_ptr) == PNG_COLOR_TYPE_RGB)
 		exit_message("[!] input file is PNG_COLOR_TYPE_RGB but must be PNG_COLOR_TYPE_RGBA "
@@ -195,17 +208,22 @@ void write_steg(unsigned char *bin_arr, size_t size_of_bin_arr, char channel)
 			 * ptr[2] is the blue value
 			 * ptr[3] is the alpha value
 			 */
-			if(count < size_of_bin_arr){
-				if(bin_arr[count]){
+			if(count < new_bin_size){
+				if(new_bin[count] == 1){
 					if(ptr[int_chan] % 2 == 0){
-						ptr[int_chan]++;
+						ptr[int_chan]-=1;
+					}
+				}
+				else if(new_bin[count] == 0){
+					if(ptr[int_chan] % 2){
+						ptr[int_chan]+=1;
 					}
 				}
 				else{
-					if(ptr[int_chan] % 2){
-						ptr[int_chan]--;
-					}
+					exit_message("[!] Unexpected number in new_bin in png_io.c\n");
 				}
+				printf("%d: %d %d\n", count, ptr[int_chan], new_bin[count]);
+				count++;
 			}
 		}
 	}
