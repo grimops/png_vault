@@ -5,6 +5,10 @@ BIN_DIR=/usr/bin/local
 
 all: png_vault
 
+
+rebuild: 
+	make clean
+	make all
 png_vault: main.o exit_message.o png_io.o file_io.o bin_conv.o
 	$(CC) main.o exit_message.o png_io.o file_io.o bin_conv.o -lpng -o $(EXE)
 main.o: main.c
