@@ -168,10 +168,6 @@ void write_steg(unsigned char *bin_arr, size_t size_of_bin_arr, char channel)
 	int64_to_bin(size_of_bin_arr, size_of_bin_arr_bin);
 	bincat(size_of_bin_arr_bin, 64, bin_arr, size_of_bin_arr, &new_bin, &new_bin_size);
 
-	for(int i = 0; i < new_bin_size; i++)
-	{
-		//printf("%d", new_bin[i]);
-	}
 	printf("The .png file is %d x %d with a total of %d pixels\n", height, width, height * width);
 	if (png_get_color_type(png_ptr, info_ptr) == PNG_COLOR_TYPE_RGB)
 		exit_message("[!] input file is PNG_COLOR_TYPE_RGB but must be PNG_COLOR_TYPE_RGBA "
@@ -222,7 +218,6 @@ void write_steg(unsigned char *bin_arr, size_t size_of_bin_arr, char channel)
 				else{
 					exit_message("[!] Unexpected number in new_bin in png_io.c\n");
 				}
-				printf("%d: %d %d\n", count, ptr[int_chan], new_bin[count]);
 				count++;
 			}
 		}
